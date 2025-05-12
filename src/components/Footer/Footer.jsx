@@ -42,7 +42,7 @@ const Footer = () => {
               <Link href="/faculty" color="inherit" underline="hover">
                 Instructors
               </Link>
-              <Link href="#" color="inherit" underline="hover">
+              <Link href="/contact" color="inherit" underline="hover">
                 Contact
               </Link>
             </Box>

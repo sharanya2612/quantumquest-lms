@@ -9,6 +9,8 @@ import RegisterPage from './pages/Register/Register';
 import AllCourses from './components/AllCourses/AllCourses';
 import FacultyPage from './components/AllTeam/AllTeam';
 import FacultyDashboard from './pages/FacultyDashboard/FacultyDashboard';
+import AboutSection from './pages/About/About';
+import ContactPage from './pages/Contact/Contact';
 
 const App = () => {
     const [user, setUser] = useState(null);
@@ -24,10 +26,12 @@ const App = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutSection />} />
                 <Route path="/login" element={<LoginPage setUser={setUser} />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/all-courses" element={<AllCourses />} />
                 <Route path="/faculty" element={<FacultyPage />} />
+                <Route path="/contact" element={<ContactPage />} />
                 <Route
                     path="/admin-dashboard"
                     element={
@@ -48,7 +52,7 @@ const App = () => {
                         )
                     }
                 />
-                 <Route
+                <Route
                     path="/faculty-dashboard"
                     element={
                         user && user.role === 'faculty' ? (

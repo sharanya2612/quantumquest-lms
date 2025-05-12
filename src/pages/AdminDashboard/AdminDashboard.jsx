@@ -4,16 +4,19 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { Box, Typography, Paper, Grid, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Divider, Button } from "@mui/material";
 import EmailIcon from '@mui/icons-material/Email';
-import CourseForm from "../../components/CreateCourses/CreateCourses";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";
 import FacultyForm from "../../components/CreateFaculty/CreateFaculty";
+import PersonIcon from '@mui/icons-material/Person';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [subscribers, setSubscribers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadingSubs, setLoadingSubs] = useState(true);
+  const [loadingContact, setLoadingContact] = useState(true);
+  const [contact, setContact] = useState([]);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -33,6 +36,11 @@ const AdminDashboard = () => {
       .then((res) => setSubscribers(res.data))
       .catch((err) => console.error("Error fetching subscribers:", err))
       .finally(() => setLoadingSubs(false));
+
+    axios.get("http://localhost:3001/contact")
+      .then((res) => setContact(res.data))
+      .catch((err) => console.error("Error fetching contact:", err))
+      .finally(() => setLoadingContact(false));
   }, []);
 
   const adminUsers = users.filter(u => u.role === "admin");
@@ -102,7 +110,7 @@ const AdminDashboard = () => {
         <CircularProgress />
       )}
 
-      <FacultyForm/>
+      <FacultyForm />
 
       {/* Subscribed Users */}
       <Box mt={6}>
@@ -130,6 +138,46 @@ const AdminDashboard = () => {
                 </React.Fragment>
               ))}
 
+            </List>
+          )}
+        </Paper>
+      </Box>
+
+      {/* Contact Messages */}
+      <Box mt={6}>
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
+          Contact Messages
+        </Typography>
+        <Paper sx={{ maxHeight: 300, overflow: "auto", p: 2 }}>
+          {loadingContact ? (
+            <Box display="flex" justifyContent="center" alignItems="center" height={100}>
+              <CircularProgress />
+            </Box>
+          ) : contact.length === 0 ? (
+            <Typography>No Messages found.</Typography>
+          ) : (
+            <List>
+              {contact.map((contact, index) => (
+                <React.Fragment key={contact.id || index}>
+                  <ListItem alignItems="flex-start">
+                    <Grid container spacing={1}>
+                      <Grid item xs={12} sm={4} display="flex" alignItems="center">
+                        <PersonIcon sx={{ color: "primary.main", mr: 1 }} />
+                        <Typography variant="body1">{contact.name}</Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={4} display="flex" alignItems="center">
+                        <EmailIcon sx={{ color: "primary.main", mr: 1 }} />
+                        <Typography variant="body1">{contact.email}</Typography>
+                      </Grid>
+                      <Grid item xs={12} sm={4} display="flex" alignItems="center">
+                        <ChatBubbleIcon sx={{ color: "primary.main", mr: 1 }} />
+                        <Typography variant="body2">{contact.message}</Typography>
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                  {index < contact.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
             </List>
           )}
         </Paper>

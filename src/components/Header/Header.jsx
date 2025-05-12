@@ -10,7 +10,6 @@ import {
     CircularProgress
 } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
@@ -32,10 +31,10 @@ const Header = () => {
                     QuantumQuest
                 </Typography>
                 <Box display="flex" gap={3}>
-                    <Button color="inherit">About</Button>
+                    <Button color="inherit" onClick={() => navigate('/about')}>About</Button>
                     <Button color="inherit" onClick={() => navigate('/all-courses')}>Courses</Button>
                     <Button color="inherit" onClick={() => navigate('/faculty')}>Instructors</Button>
-                    <Button color="inherit">Contact</Button>
+                    <Button color="inherit" onClick={() => navigate('/contact')}>Contact</Button>
                     <Button
                         variant="outlined"
                         sx={{ borderRadius: "30px", textTransform: "none" }}
