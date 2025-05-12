@@ -19,24 +19,41 @@ const RegisterPage = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    // Reset error
     setError('');
 
-    if (!email || !password || !confirmPassword) {
+    // Trim to avoid whitespace-only inputs
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+    const trimmedConfirmPassword = confirmPassword.trim();
+
+    if (!trimmedEmail || !trimmedPassword || !trimmedConfirmPassword) {
       setError('All fields are required');
       return;
     }
 
-    if (password !== confirmPassword) {
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    // Password length validation
+    if (trimmedPassword.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+
+    // Check for password match
+    if (trimmedPassword !== trimmedConfirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
     try {
-      // Check if user already exists
+      // Check if email is already registered
       const existing = await axios.get('http://localhost:3001/users', {
-        params: { email }
+        params: { email: trimmedEmail }
       });
 
       if (existing.data.length > 0) {
@@ -44,22 +61,21 @@ const RegisterPage = () => {
         return;
       }
 
-      // Create new user
       const newUser = {
-        email,
-        password,
+        email: trimmedEmail,
+        password: trimmedPassword,
         role: 'user'
       };
 
       await axios.post('http://localhost:3001/users', newUser);
 
-      // Redirect to login after registration
       navigate('/login');
     } catch (err) {
       console.error(err);
       setError('An error occurred during registration');
     }
   };
+
 
   return (
     <Container

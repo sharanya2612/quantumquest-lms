@@ -14,9 +14,31 @@ const LoginPage = ({ setUser }) => {
         e.preventDefault();
         setError('');
 
+        const trimmedEmail = email.trim();
+        const trimmedPassword = password.trim();
+
+        // Basic validation
+        if (!trimmedEmail || !trimmedPassword) {
+            setError('Both fields are required');
+            return;
+        }
+
+        // Email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(trimmedEmail)) {
+            setError('Please enter a valid email address');
+            return;
+        }
+
+        // Optional: Password length check
+        if (trimmedPassword.length < 6) {
+            setError('Password must be at least 6 characters long');
+            return;
+        }
+
         try {
             const response = await axios.get('http://localhost:3001/users', {
-                params: { email: email.trim(), password: password.trim() },
+                params: { email: trimmedEmail, password: trimmedPassword },
             });
 
             if (response.data.length === 0) {
@@ -26,22 +48,24 @@ const LoginPage = ({ setUser }) => {
 
             const user = response.data[0];
             localStorage.setItem('user', JSON.stringify(user));
-            setUser(user); // <-- This triggers App to re-render with user
+            setUser(user);
 
-            if (user.role.trim() === 'admin') {
+            const role = user.role.trim();
+            if (role === 'admin') {
                 navigate('/admin-dashboard');
-            } else if (user.role.trim() === 'user') {
+            } else if (role === 'user') {
                 navigate('/user-dashboard');
-            } else if (user.role.trim() === 'faculty') {
+            } else if (role === 'faculty') {
                 navigate('/faculty-dashboard');
             } else {
                 setError('Unknown user role');
             }
         } catch (err) {
-            setError('An error occurred while logging in');
             console.error(err);
+            setError('An error occurred while logging in');
         }
     };
+
 
     return (
         <Container

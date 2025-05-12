@@ -1,36 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Box, Container, Typography, TextField, Button } from "@mui/material";
 import axios from "axios";
+import emailjs from "@emailjs/browser";
 
 const SubFooter = () => {
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const form = useRef();
 
-  const handleSubscribe = async () => {
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    const email = form.current.email.value;
+
     if (!email) {
       setMessage("Please enter a valid email.");
       return;
     }
 
-    try {
-      setIsLoading(true);
-      setMessage("");
+    setIsLoading(true);
+    setMessage("");
 
-      // POST request to your endpoint
-      const response = await axios.post("http://localhost:3001/email", {
+    try {
+      // 1. Send to your backend
+      const backendResponse = await axios.post("http://localhost:3001/email", {
         email,
       });
 
-      if (response.status === 201) {
+      if (backendResponse.status === 201 || backendResponse.status === 200) {
+        // 2. Send via EmailJS
+        await emailjs.sendForm(
+          "service_gn6u9f5",    
+          "template_eev5n7d", 
+          form.current,
+          "ttldPan7YOySa6aTr"   
+        );
+
         setMessage("Successfully subscribed!");
-        setEmail("");
+        form.current.reset();
       } else {
-        setMessage("Something went wrong. Try again later.");
+        setMessage("Subscription failed on the server. Try again.");
       }
     } catch (error) {
-      console.error("Error subscribing:", error);
-      setMessage("Subscription failed.");
+      console.error("Error during subscription:", error);
+      setMessage("An error occurred. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -56,43 +68,46 @@ const SubFooter = () => {
           Upskill your AI knowledge with us!
         </Typography>
 
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 2,
-            flexDirection: { xs: "column", sm: "row" },
-          }}
-        >
-          <TextField
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            variant="outlined"
-            placeholder="Enter your email"
+        <form ref={form} onSubmit={handleSubscribe}>
+          <Box
             sx={{
-              bgcolor: "white",
-              borderRadius: "30px",
-              flex: 1,
-              "& input": { padding: "12px" },
-            }}
-          />
-          <Button
-            variant="contained"
-            onClick={handleSubscribe}
-            disabled={isLoading}
-            sx={{
-              bgcolor: "#4299E1",
-              color: "white",
-              borderRadius: "30px",
-              px: 4,
-              fontSize: "16px",
-              fontWeight: "bold",
-              "&:hover": { bgcolor: "#3182CE" },
+              display: "flex",
+              justifyContent: "center",
+              gap: 2,
+              flexDirection: { xs: "column", sm: "row" },
             }}
           >
-            {isLoading ? "Submitting..." : "Subscribe"}
-          </Button>
-        </Box>
+            <TextField
+              name="email"
+              type="email"
+              required
+              variant="outlined"
+              placeholder="Enter your email"
+              sx={{
+                bgcolor: "white",
+                borderRadius: "30px",
+                flex: 1,
+                "& input": { padding: "12px" },
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isLoading}
+              sx={{
+                bgcolor: "#4299E1",
+                color: "white",
+                borderRadius: "30px",
+                px: 4,
+                fontSize: "16px",
+                fontWeight: "bold",
+                "&:hover": { bgcolor: "#3182CE" },
+              }}
+            >
+              {isLoading ? "Submitting..." : "Subscribe"}
+            </Button>
+          </Box>
+        </form>
 
         {message && (
           <Typography
