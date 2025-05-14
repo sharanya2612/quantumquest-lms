@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/quantumquest-lms/static/css/main.a240c550.css",
-    "main.js": "/quantumquest-lms/static/js/main.cb3bf5a3.js",
+    "main.js": "/quantumquest-lms/static/js/main.e1a0c812.js",
     "static/js/453.280bedda.chunk.js": "/quantumquest-lms/static/js/453.280bedda.chunk.js",
     "index.html": "/quantumquest-lms/index.html",
     "main.a240c550.css.map": "/quantumquest-lms/static/css/main.a240c550.css.map",
-    "main.cb3bf5a3.js.map": "/quantumquest-lms/static/js/main.cb3bf5a3.js.map",
+    "main.e1a0c812.js.map": "/quantumquest-lms/static/js/main.e1a0c812.js.map",
     "453.280bedda.chunk.js.map": "/quantumquest-lms/static/js/453.280bedda.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a240c550.css",
-    "static/js/main.cb3bf5a3.js"
+    "static/js/main.e1a0c812.js"
   ]
 }
