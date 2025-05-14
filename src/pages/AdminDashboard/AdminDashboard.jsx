@@ -13,6 +13,8 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble'
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [subscribers, setSubscribers] = useState([]);
+  const [courses, setCourses] = useState([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [loadingSubs, setLoadingSubs] = useState(true);
   const [loadingContact, setLoadingContact] = useState(true);
@@ -41,6 +43,11 @@ const AdminDashboard = () => {
       .then((res) => setContact(res.data))
       .catch((err) => console.error("Error fetching contact:", err))
       .finally(() => setLoadingContact(false));
+
+    axios.get("http://localhost:3001/courses")
+      .then((res) => setCourses(res.data))
+      .catch((err) => console.error("Error fetching courses:", err))
+      .finally(() => setLoadingCourses(false));
   }, []);
 
   const adminUsers = users.filter(u => u.role === "admin");
@@ -59,6 +66,34 @@ const AdminDashboard = () => {
     }],
     credits: { enabled: false }
   };
+
+  const handleDeleteCourse = async (courseId) => {
+    try {
+      // Step 1: Delete course from the courses list
+      axios.delete(`http://localhost:3001/courses/${courseId}`);
+
+      // Step 2: Fetch all user-course mappings
+      const { data: userCourseMappings } = await axios.get("http://localhost:3001/enrolledcourses");
+
+      // Step 3: Remove the deleted courseId from all mappings
+      await Promise.all(userCourseMappings.map(async (entry) => {
+        if (entry.courseIds.includes(courseId)) {
+          const updatedCourseIds = entry.courseIds.filter(id => id !== courseId);
+          await axios.patch(`http://localhost:3001/enrolledcoursess/${entry.id}`, {
+            courseIds: updatedCourseIds
+          });
+        }
+      }));
+
+      // Step 4: Refresh courses state
+      setCourses(prev => prev.filter(course => course.id !== courseId));
+      alert("Course deleted successfully!");
+    } catch (error) {
+      console.error("Failed to delete course:", error);
+      alert("Failed to delete course.");
+    }
+  };
+
 
   return (
     <Box sx={{
@@ -138,6 +173,41 @@ const AdminDashboard = () => {
                 </React.Fragment>
               ))}
 
+            </List>
+          )}
+        </Paper>
+      </Box>
+      <Box mt={6}>
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
+          Courses
+        </Typography>
+        <Paper sx={{ maxHeight: 300, overflow: "auto", p: 2 }}>
+          {loadingCourses ? (
+            <Box display="flex" justifyContent="center" alignItems="center" height={100}>
+              <CircularProgress />
+            </Box>
+          ) : courses.length === 0 ? (
+            <Typography>No courses found.</Typography>
+          ) : (
+            <List>
+              {courses.map((course, index) => (
+                <React.Fragment key={course.id}>
+                  <ListItem
+                    secondaryAction={
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        onClick={() => handleDeleteCourse(course.id)}
+                      >
+                        Delete
+                      </Button>
+                    }
+                  >
+                    <ListItemText primary={course.title || `Course ${course.id}`} />
+                  </ListItem>
+                  {index < courses.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
             </List>
           )}
         </Paper>

@@ -51,7 +51,7 @@ const AiInfo = () => {
                   component="img"
                   height="550"  // Increased height
                   width="100"  // Reduced width
-                  image="/assets/images/img1.png"
+                  image="${process.env.PUBLIC_URL}/assets/images/img1.png"
                   alt="AI Learning"
                 />
               </Card>
@@ -62,7 +62,7 @@ const AiInfo = () => {
                   component="img"
                   height="550"  // Increased height
                   width="100"  // Reduced width
-                  image="/assets/images/img2.png"
+                  image="${process.env.PUBLIC_URL}/assets/images/img2.png"
                   alt="AI Robotics"
                 />
               </Card>
