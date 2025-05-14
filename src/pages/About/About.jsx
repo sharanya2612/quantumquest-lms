@@ -91,7 +91,7 @@ const AboutSection = () => {
           <Grid item xs={12} md={6}>
             <Box
               component="img"
-              src="${process.env.PUBLIC_URL}/assets/images/about-illustration.png"
+              src={process.env.PUBLIC_URL + "/assets/images/about-illustration.png"}
               alt="QuantumQuest AI Learning"
               sx={{
                 width: "100%",

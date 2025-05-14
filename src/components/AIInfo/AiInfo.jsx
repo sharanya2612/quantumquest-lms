@@ -17,9 +17,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const AiInfo = () => {
   return (
-    <Container maxWidth="xl" sx={{  mb: 8, p: 4 , backgroundColor:"white"}}>
+    <Container maxWidth="xl" sx={{ mb: 8, p: 4, backgroundColor: "white" }}>
       <Grid container spacing={6} alignItems="center">
-        
+
         {/* Left Section - Text and Features */}
         <Grid item xs={12} md={6}>
           <Typography variant="h4" fontWeight="bold" gutterBottom sx={{ mb: 2 }}>
@@ -28,7 +28,7 @@ const AiInfo = () => {
           <Typography variant="h6" paragraph sx={{ mb: 3, color: "#555" }}>
             QuantumQuest provides personalized learning paths, real-time feedback, and collaborative projects, ensuring an engaging and effective AI education experience.
           </Typography>
- 
+
           {/* Features List */}
           <List>
             {["Adaptive Learning Paths", "Real-Time Feedback System", "AI Project Simulations"].map((feature, index) => (
@@ -41,7 +41,7 @@ const AiInfo = () => {
             ))}
           </List>
         </Grid>
- 
+
         {/* Right Section - Images and Stats */}
         <Grid item xs={12} md={6}>
           <Grid container spacing={3} justifyContent="center">
@@ -51,24 +51,24 @@ const AiInfo = () => {
                   component="img"
                   height="550"  // Increased height
                   width="100"  // Reduced width
-                  image="${process.env.PUBLIC_URL}/assets/images/img1.png"
+                  image={`${process.env.PUBLIC_URL}/assets/images/img1.png`}
                   alt="AI Learning"
                 />
               </Card>
             </Grid>
             <Grid item xs={6}>
-              <Card sx={{ borderRadius: 3, boxShadow: 3, marginTop:"50px",marginLeft:"10px" }}>
+              <Card sx={{ borderRadius: 3, boxShadow: 3, marginTop: "50px", marginLeft: "10px" }}>
                 <CardMedia
                   component="img"
                   height="550"  // Increased height
                   width="100"  // Reduced width
-                  image="${process.env.PUBLIC_URL}/assets/images/img2.png"
+                  image={`${process.env.PUBLIC_URL}/assets/images/img2.png`}
                   alt="AI Robotics"
                 />
               </Card>
             </Grid>
           </Grid>
- 
+
           {/* Student Success Stats */}
           <Paper
             elevation={4}
@@ -81,7 +81,7 @@ const AiInfo = () => {
               backgroundColor: "#f0f0f0",
               borderRadius: "12px",
               textAlign: "center",
-              width:"150px",
+              width: "150px",
               position: "relative",
               bottom: 120,
               right: 50,
@@ -100,7 +100,7 @@ const AiInfo = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   fontSize: "15px",
-                //   fontWeight: "bold",
+                  //   fontWeight: "bold",
                 }}
               >
                 95%

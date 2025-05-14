@@ -74,7 +74,7 @@ const Header = () => {
                             width: "100%",
                             maxWidth: 400,
                             height: 400,
-                            backgroundImage: 'url(${process.env.PUBLIC_URL}/assets/images/header_1.png)', // Path to your image in the public folder
+                            backgroundImage: `url(${process.env.PUBLIC_URL}/assets/images/header_1.png)`, 
                             backgroundSize: "cover",  // Ensures the image covers the entire Box
                             backgroundPosition: "center",  // Centers the image
                             borderRadius: "50%",

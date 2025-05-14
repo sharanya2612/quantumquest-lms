@@ -67,7 +67,7 @@
       "students": "200+",
       "reviews": "100+",
       "price": "$299",
-      "image": "${process.env.PUBLIC_URL}/assets/images/course1.png",
+      "image": "assets/images/course1.png",
       "id": "7fa4"
     },
     {
@@ -77,7 +77,7 @@
       "students": "300+",
       "reviews": "200+",
       "price": "$399",
-      "image": "${process.env.PUBLIC_URL}/assets/images/course2.png",
+      "image": "assets/images/course2.png",
       "id": "3922"
     },
     {
@@ -87,7 +87,7 @@
       "students": "400+",
       "reviews": "300+",
       "price": "$599",
-      "image": "${process.env.PUBLIC_URL}/assets/images/course3.png",
+      "image": "assets/images/course3.png",
       "id": "3e3b"
     },
     {
@@ -127,7 +127,7 @@
     {
       "name": "John Doe",
       "role": "AI Lead",
-      "image": "${process.env.PUBLIC_URL}/assets/images/team1.jpg",
+      "image": "assets/images/team1.jpg",
       "socials": [
         "facebook",
         "linkedin",
@@ -139,7 +139,7 @@
     {
       "name": "Jane Smith",
       "role": "AI Mentor",
-      "image": "${process.env.PUBLIC_URL}/assets/images/team2.jpg",
+      "image": "assets/images/team2.jpg",
       "socials": [
         "facebook",
         "linkedin",
@@ -151,7 +151,7 @@
     {
       "name": "Mike Brown",
       "role": "AI Trainer",
-      "image": "${process.env.PUBLIC_URL}/assets/images/team3.jpg",
+      "image": "assets/images/team3.jpg",
       "socials": [
         "facebook",
         "linkedin",
@@ -163,7 +163,7 @@
     {
       "name": "David Lee",
       "role": "Data Head",
-      "image": "${process.env.PUBLIC_URL}/assets/images/team4.jpg",
+      "image": "assets/images/team4.jpg",
       "socials": [
         "facebook",
         "linkedin",
